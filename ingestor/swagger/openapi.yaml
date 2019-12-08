@@ -1,0 +1,290 @@
+openapi: 3.0.0
+info:
+  title: rb-ingestor
+  description: The Runblade INGESTOR for ingesting placements (ad space inventory)
+    and creative content (ads)
+  license:
+    name: Creative Commons Attribution-NonCommercial 4.0 International
+    url: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/runblade/ingestor/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /devices:
+    get:
+      tags:
+      - Device
+      description: Returns all registered devices (a device is a hardware and software
+        entity through which placements are offered)
+      operationId: getDevices
+      parameters:
+      - name: skip
+        in: query
+        description: Number of records to skip
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: Max number of records to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceInfo'
+  /devices/whereis/{deviceId}:
+    get:
+      tags:
+      - Device
+      description: Get granular location of IoT device
+      operationId: getDeviceLocation
+      parameters:
+      - name: deviceId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceLocation'
+  /devices/register/{deviceIngestId}:
+    post:
+      tags:
+      - Device
+      description: Register a new device that can offer placements via an ingest ID
+      operationId: registerDevice
+      parameters:
+      - name: deviceIngestId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceInfo'
+      responses:
+        "200":
+          description: Successfully registered a device, shall be submitted for approval
+  /placements:
+    get:
+      tags:
+      - Inventory
+      description: Get all the placements!
+      operationId: getPlacements
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacementInfo'
+      x-swagger-router-controller: Inventory
+  /placements/register/{placementIngestId}:
+    post:
+      tags:
+      - Inventory
+      description: Register a new placement via an ingest ID
+      operationId: registerPlacement
+      parameters:
+      - name: placementIngestId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlacementInfo'
+      responses:
+        "200":
+          description: Successfully registered a placement, shall be submitted for
+            approval
+  /creatives:
+    get:
+      tags:
+      - Inventory
+      description: Get all the creatives!
+      operationId: getCreatives
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreativeInfo'
+      x-swagger-router-controller: Inventory
+  /creatives/register/{creativeIngestId}:
+    post:
+      tags:
+      - Inventory
+      description: Register a new creative via an ingest ID, creatives are rendered
+        on a placement (many-to-many)
+      operationId: registerCreative
+      parameters:
+      - name: creativeIngestId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreativeInfo'
+      responses:
+        "200":
+          description: Successfully registered a creative, shall be submitted for
+            approval
+  /utilities/pair/{deviceId}/{placementId}:
+    post:
+      tags:
+      - Utility
+      description: Pair a device to a placement ("many-to-many")
+      operationId: setScreen
+      parameters:
+      - name: deviceId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: placementId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      x-swagger-router-controller: Inventory
+components:
+  schemas:
+    DeviceInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        locationId:
+          type: string
+          format: uuid
+        protocol:
+          type: string
+          example: IPV4, IPV6
+        uri:
+          type: string
+          format: uri
+          example: http://10.0.0.1:8080
+      description: Everything we need to know about the IoT device
+    DeviceLocation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        deviceId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        lat:
+          type: string
+          example: 15.0N
+        lon:
+          type: string
+          example: 35.0W
+        deepaddress:
+          type: string
+          example: Behind the parking garage theater exit
+        city:
+          type: string
+        country:
+          type: string
+      description: Highly granular location information of the device
+    PlacementInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        category:
+          type: string
+          example: Transparent OLED
+      description: Everything we need to know about a specific placement opportunity
+    CreativeInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        domain:
+          type: array
+          example:
+          - Corporate
+          - Education
+          - Government
+          - Health
+          - Retail
+          - Transport
+          items: {}
+        category:
+          type: string
+          example: Gaming
+        safety:
+          type: string
+          example: PG13
+        description:
+          type: string
+          example: Government safety message GOV.RB.001
+        binary:
+          type: string
+          format: binary
+      description: Everything we need to know about a specific piece of creative ('ad')
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          example: Everything is OK :)
+      description: Generic API response thingy

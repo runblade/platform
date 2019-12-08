@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  title: rb-concierge
+  description: The Runblade CONCIERGE for the platform's interface, dashboards, reporting,
+    etc
+  license:
+    name: Creative Commons Attribution-NonCommercial 4.0 International
+    url: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/runblade/concierge/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths: {}
+components: {}

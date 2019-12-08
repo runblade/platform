@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: rb-cruncher
+  description: The Runblade CRUNCHER for ensuring safety, accuracy, and fairness
+  license:
+    name: Creative Commons Attribution-NonCommercial 4.0 International
+    url: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/runblade/cruncher/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths: {}
+components:
+  schemas:
+    FAQContent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        question:
+          type: string
+          example: What type of ads are allowed on the Runblade platform?
+        answer:
+          type: string
+          example: Runblade has a general policy disallowing adult content/items,
+            alcohol, tobacco and gambling. Besides these all ads are subject to local
+            laws and regulations and Runblade cedes authority to such higher powers.
+      description: General policies on Runblade
