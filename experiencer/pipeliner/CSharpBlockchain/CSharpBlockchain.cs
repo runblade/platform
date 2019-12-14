@@ -67,7 +67,7 @@ namespace CSharpBlockchain
         private List<Transaction> _pendingTransactions;    
         public List<Block> Chain { get; set; }    
         
-        public BlockChain(int proofOfWorkDifficulty, int miningReward)
+        public BlockChain(int proofOfWorkDifficulty, double miningReward)
         {
             _proofOfWorkDifficulty = proofOfWorkDifficulty;
             _miningReward = miningReward;
