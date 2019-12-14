@@ -80,10 +80,11 @@ namespace CSharpBlockchain
             _pendingTransactions.Add(transaction);
         }    
         
-        public void MineBlock(string minerAddress)
+        public void MineBlock(string minerAddress) //This should be named differently (similar function name above)
         {
             Transaction minerRewardTransaction = new Transaction(null, minerAddress, _miningReward);
-            _pendingTransactions.Add(minerRewardTransaction);        Block block = new Block(DateTime.Now, _pendingTransactions);
+            _pendingTransactions.Add(minerRewardTransaction);        
+            Block block = new Block(DateTime.Now, _pendingTransactions);
             block.MineBlock(_proofOfWorkDifficulty);        
             block.PreviousHash = Chain.Last().Hash;
             Chain.Add(block);        
