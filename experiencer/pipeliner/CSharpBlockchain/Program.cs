@@ -10,12 +10,19 @@ namespace CSharpBlockchain
             Console.WriteLine("---------------------------\n");
             Console.WriteLine("Beginning blockchain run...\n");
 
+            //Minor sanity check
+            if (args.Length < 1) 
+            {
+                Console.WriteLine("Oops! Please provide PoW Difficulty as parameter!\n"); 
+                return;
+            }
+
             //Set up mining and user addresses (can be modified for non-"coin" uses)            
             const string minerAddress = "miner1";
             const string user1Address = "A";
             const string user2Address = "B";       
             //Important "global" variables
-            const int    _proofOfWorkDifficulty = 6;
+            int _proofOfWorkDifficulty = Int32.Parse(args[0]);
             const double _miningReward = 0.5;
 
             //Create the blockchain (genesis)
@@ -36,32 +43,13 @@ namespace CSharpBlockchain
             blockChain.MineBlock(minerAddress);        
             Console.WriteLine("BALANCE of the miner: {0}\n", blockChain.GetBalance(minerAddress));        
             
-            //Output entire blockchain
-            PrintChain(blockChain);       
+            //Output entire blockchain - need to clean up function (why is it passing itself as parameter?)
+            blockChain.PrintChain(blockChain);       
             
             //Test hack of blockchain
             Console.WriteLine("Hacking the blockchain...");
             blockChain.Chain[1].Transactions = new List<Transaction> { new Transaction(user1Address, minerAddress, 150)};
             Console.WriteLine("Is valid: {0}\n", blockChain.IsValidChain());        
-        }
-
-         private static void PrintChain(BlockChain blockChain)
-        {
-            Console.WriteLine("\n----------------- Dumping Blockchain -----------------");
-            foreach (Block block in blockChain.Chain)
-            {
-                Console.WriteLine("------ Start Block ------");
-                Console.WriteLine("Hash: {0}", block.Hash);
-                Console.WriteLine("Previous Hash: {0}", block.PreviousHash);            
-                Console.WriteLine("--- Start Transactions (In This Block) ---");
-                foreach (Transaction transaction in block.Transactions)
-                {
-                    Console.WriteLine("From: {0} To {1} Amount {2}", transaction.From, transaction.To, transaction.Amount);
-                }
-                Console.WriteLine("--- End Transactions (In This Block) ---");            
-                Console.WriteLine("------ End Block ------");
-            }
-            Console.WriteLine("----------------- End Blockchain -----------------");
         }
     }
 }
