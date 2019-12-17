@@ -29,6 +29,7 @@ namespace CSharpBlockchain
         public List<Transaction> Transactions   { get; set;         }
         public string Hash                      { get; private set; }
     
+        //Genesis Block shouldn't be this easy to create?!
         public Block(DateTime timeStamp, List<Transaction> transactions, string previousHash = "")
         {
             _timeStamp = timeStamp;
@@ -128,6 +129,7 @@ namespace CSharpBlockchain
             return balance;
         }    
         
+        //Not sure if Genesis Block creation should be this easy!
         private Block CreateGenesisBlock()
         {
             List<Transaction> transactions = new List<Transaction> {new Transaction("", "", 0)};

@@ -40,6 +40,8 @@ Handles buys, sells and trades as efficiently as possible.
 
 Organises and delivers creative to placements.
 
+* CSharpBlockchain.cs explores using blockchain(s) for the Pipeliner as a possible alternative to database access
+
 ---
 
 ## License
