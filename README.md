@@ -3,6 +3,7 @@
 ## _Landing
 
 * Consumer-facing website currently redirected to () from ()
+* Mojuze.Com to be redirected (docker run -it --rm -p 80:80 runblade/mojuzedotcom:redirect)
 
 * YouTube: [Runblade™ Presentation 1.2](https://youtu.be/_YeRkaNMjMU)
 
