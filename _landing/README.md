@@ -1,6 +1,22 @@
-# "Land.io" UI Kit + Landing Page (HTML)
+# "Land.io" UI Kit + Landing Page (HTML) () Modified by SR Runblade 2019)
 
-# Modified by SR Runblade 2019
+---
+---
+
+## NGINX-STATIC
+
+Simple way to dockerize front-facing static website
+
+---
+
+## WORDSCALE-PHP
+
+Deprecated one-shot load testing and load simulation
+
+---
+---
+
+## Original README
 
 Landio is a responsive HTML template, built on top of [Bootstrap 4](http://v4-alpha.getbootstrap.com/) and based on the [Land.io Sketch design](http://tympanus.net/codrops/2015/09/16/freebie-land-io-ui-kit-landing-page-design-sketch/) by [Peter Finlan](http://peterfinlan.com/). This template and the UI kit were coded by [Taty Grassini](http://tatygrassini.github.io/).
 
@@ -30,5 +46,3 @@ Follow Taty: [Twitter](https://twitter.com/tatygrassini), [GitHub](https://githu
 Follow Codrops: [Twitter](http://www.twitter.com/codrops), [Facebook](http://www.facebook.com/pages/Codrops/159107397912), [Google+](https://plus.google.com/101095823814290637419), [GitHub](https://github.com/codrops), [Pinterest](http://www.pinterest.com/codrops/)
 
 [© Codrops 2015](http://www.codrops.com)
-
-

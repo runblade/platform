@@ -2,8 +2,9 @@
 
 ## _Landing
 
-* Consumer-facing website currently redirected to () from ()
-* Mojuze.Com to be redirected (docker run -it --rm -p 80:80 runblade/mojuzedotcom:redirect)
+* Consumer-facing website currently redirected from Runblade.Pro and Runblade.Com to [Microsoft Azure](https://runbladeau.azurewebsites.net)
+
+* Mojuze.Com can be redirected (docker run -it --rm -p 80:80 runblade/mojuzedotcom:redirect)
 
 * YouTube: [Runblade™ Presentation 1.2](https://youtu.be/_YeRkaNMjMU)
 
@@ -19,9 +20,7 @@ Ensures safety, fairness and accuracy across the platform.
 
 * SwaggerHub: [rb-cruncher](https://app.swaggerhub.com/apis/runblade/cruncher/1.0.0)
 
-* Docker Tensorflow (crowd detection): [runblade/tensorflow](https://hub.docker.com/repository/docker/runblade/tensorflow)
-
-* YouTube: [Runblade™ Crowd Detection 1.0](https://youtu.be/rkwSw_xYqD4)
+* Docker Tensorflow (crowd detection), see YouTube: [Runblade™ Crowd Detection 1.0](https://youtu.be/rkwSw_xYqD4)
 
 ## Concierge
 
@@ -29,11 +28,13 @@ API engine, dashboards and reporting for various touchpoints.
 
 * SwaggerHub: [rb-concierge](https://app.swaggerhub.com/apis/runblade/concierge/1.0.0)
 
+* To add serving of ___corporate___ information
+
 ## Negotiator
 
 Handles buys, sells and trades as efficiently as possible.
 
-* SimulatedDevice.cs runs DEVICE, PLACEMENT and CREATIVE stream simulations
+* SimulatedDevice runs DEVICE, PLACEMENT and CREATIVE stream simulations
 
 * YouTube: [Runblade™ Negotiator Simulation 1.0](https://youtu.be/y9X8OE2TCwA)
 
@@ -41,7 +42,9 @@ Handles buys, sells and trades as efficiently as possible.
 
 Organises and delivers creative to placements.
 
-* CSharpBlockchain.cs explores using blockchain(s) for the Pipeliner as a possible alternative to database access
+* CSharpBlockchain explores using blockchain(s) for the Pipeliner as a possible alternative to database access
+
+* Pixelizer high-end may use GLTF and WebGL (currently researching)
 
 ---
 
