@@ -1,4 +1,4 @@
-# "Land.io" UI Kit + Landing Page (HTML) () Modified by SR Runblade 2019)
+# "Land.io" UI Kit + Landing Page (HTML) (Modified by SR Runblade 2019)
 
 ---
 ---
@@ -20,7 +20,7 @@ Deprecated one-shot load testing and load simulation
 
 Landio is a responsive HTML template, built on top of [Bootstrap 4](http://v4-alpha.getbootstrap.com/) and based on the [Land.io Sketch design](http://tympanus.net/codrops/2015/09/16/freebie-land-io-ui-kit-landing-page-design-sketch/) by [Peter Finlan](http://peterfinlan.com/). This template and the UI kit were coded by [Taty Grassini](http://tatygrassini.github.io/).
 
-## License (Original)
+## License (Original, modifications by SR Runblade are Creative Commons Attribution Non-Commercial)
 
 Use it freely but please do not republish, distribute or sell "as-is". Please credit the designer and developer when you use it in your project. [Read more about our license.](http://tympanus.net/codrops/licensing/)
 
