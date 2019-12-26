@@ -29,6 +29,7 @@ namespace CSharpBlockchain
         public List<Transaction> Transactions   { get; set;         }
         public string Hash                      { get; private set; }
     
+        //Genesis Block shouldn't be this easy to create?!
         public Block(DateTime timeStamp, List<Transaction> transactions, string previousHash = "")
         {
             _timeStamp = timeStamp;
@@ -41,12 +42,15 @@ namespace CSharpBlockchain
         public void MineBlock(int proofOfWorkDifficulty)
         {
             string hashValidationTemplate = new String('0', proofOfWorkDifficulty);
+            int hashCount = 0;
             while (Hash.Substring(0, proofOfWorkDifficulty) != hashValidationTemplate)
             {
                 _nonce++;
                 Hash = CreateHash();
+                Console.Write("\rAttempt {0} at {1} ({2})", String.Format("{0:n0}", hashCount), DateTime.Now, Hash);
+                hashCount++;
             }        
-            Console.WriteLine("Blocked with HASH={0} successfully mined!", Hash);
+            Console.WriteLine("\nBlock with HASH {0} successfully mined!", Hash);
         }    
         
         public string CreateHash()
@@ -125,10 +129,31 @@ namespace CSharpBlockchain
             return balance;
         }    
         
+        //Not sure if Genesis Block creation should be this easy!
         private Block CreateGenesisBlock()
         {
             List<Transaction> transactions = new List<Transaction> {new Transaction("", "", 0)};
+            Console.WriteLine("Genesis block created at {0}", DateTime.Now);
             return new Block(DateTime.Now, transactions, "0");
+        }
+
+        public void PrintChain(BlockChain blockChain)
+        {
+            Console.WriteLine("\n----------------- Dumping Blockchain -----------------");
+            foreach (Block block in blockChain.Chain)
+            {
+                Console.WriteLine("------ Start Block ------");
+                Console.WriteLine("Hash: {0}", block.Hash);
+                Console.WriteLine("Previous Hash: {0}", block.PreviousHash);            
+                Console.WriteLine("--- Start Transactions (In This Block) ---");
+                foreach (Transaction transaction in block.Transactions)
+                {
+                    Console.WriteLine("From: {0} To {1} Amount {2}", transaction.From, transaction.To, transaction.Amount);
+                }
+                Console.WriteLine("--- End Transactions (In This Block) ---");            
+                Console.WriteLine("------ End Block ------");
+            }
+            Console.WriteLine("----------------- End Blockchain -----------------");
         }
     }   
 }
