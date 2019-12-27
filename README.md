@@ -48,6 +48,20 @@ Organises and delivers creative to placements.
 
 ---
 
+## Getting Started
+
+Run from Docker Hub private repo runblade/platform as follows:
+
+```docker
+docker run -d --name lc-landing-nginx-static -p 8001:80 runblade/platform:rb-landing-nginx-static
+docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE
+docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT
+docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE
+docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
+```
+
+---
+
 ## License
 
 All ideas, concepts and content here are licensed as Creative Commons - Attribution NonCommercial and remains the property of Project Mojuze (formerly MobileJuze Pty Ltd), with the exception of material by other original creators as credited.
