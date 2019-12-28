@@ -50,7 +50,7 @@ Organises and delivers creative to placements.
 
 ## Getting Started
 
-Run from Docker Hub private repo runblade/platform as follows:
+Run from Docker Hub private repo runblade/platform as follows (authentication required eg. via signing in on Docker Desktop):
 
 ```docker
 docker run -d --name lc-landing-nginx-static -p 8001:80 runblade/platform:rb-landing-nginx-static
@@ -59,6 +59,28 @@ docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negoti
 docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE
 docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
 docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
+```
+
+View output of running container(s):
+
+```docker
+docker attach lc-negotiator-simulateddevice-1
+docker attach lc-negotiator-simulateddevice-2
+docker attach lc-negotiator-simulateddevice-3
+docker attach lc-experiencer-csharpblockchain
+```
+
+Stop and remove all containers:
+
+```docker
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
+
+Nuke all images (docker rmi):
+
+```docker
+docker system prune -a
 ```
 
 ---
