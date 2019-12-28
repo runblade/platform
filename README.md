@@ -44,7 +44,7 @@ Organises and delivers creative to placements.
 
 * CSharpBlockchain explores using blockchain(s) for the Pipeliner as a possible alternative to database access
 
-* Pixelizer high-end may use GLTF and WebGL (currently researching)
+* Pixelizer high-end may use GLTF and WebGL (demo available, see Getting Started)
 
 ---
 
