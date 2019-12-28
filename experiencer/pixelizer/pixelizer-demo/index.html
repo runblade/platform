@@ -7,13 +7,18 @@
     <script type='module' src='https://www.vectary.com/viewer/v1/scripts/vctr-viewer.js'></script>
     <script type='module' src='webgl.js'></script>
     <style>
-        body        { background-color: #333; font-family: 'Arial'; font-size:10px;}
+        body        { background-color: #000; font-family: 'Arial'; font-size:10px;}
         button      { display:none;            }
-        #container  { display: flex; flex-direction: column; margin: 0px auto; width: 100%; }
+        #container  { display: flex; flex-direction: column; margin: 0 auto; width: 100%; }
     </style>
 </head>
 
 <body>
+    <div>
+        <p style="text-align: center; color: #CCC">
+           <br>&nbsp;
+        </p>
+    </div>
     <div id="container">
         <vctr-viewer id="glContainer" model="5d896ef8-f383-4769-bd8a-9ab61de78873" env="redwall" turntable="0" gesturehandling="superior" enableapi="1">
         </vctr-viewer>
@@ -28,7 +33,8 @@
     </div>
 
     <div>
-        <p style="text-align: center; color: #CCC">
+        <p style="text-align: center; color: #CCC; margin-top: 2em;">
+            <br>&nbsp;
             <script>
                 var date = new Date();
                 var time = date.toLocaleTimeString();
