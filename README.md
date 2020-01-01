@@ -74,7 +74,6 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 #Negotiator
     #API - Swagger
     #Database
-    
     #Simulated Device
     docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE
     docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT
@@ -88,7 +87,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
     docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
 ```
 
-View output of running container(s):
+View output of running container(s)
 
 ```PowerShell
 #Negotiator
@@ -99,7 +98,7 @@ View output of running container(s):
     docker attach lc-experiencer-csharpblockchain
 ```
 
-Stop and remove all containers:
+Stop and remove all containers
 
 ```PowerShell
 #Platform-Wide
@@ -107,7 +106,7 @@ Stop and remove all containers:
     docker rm $(docker ps -a -q)
 ```
 
-Nuke all images (docker rmi):
+Nuke all images (docker rmi)
 
 ```PowerShell
 #Platform-Wide
@@ -118,13 +117,20 @@ Nuke all images (docker rmi):
 
 ## Building Platform
 
-Clone from Github (this repository): 
+Requirements
+
+* Docker
+* Dotnet Core
+* Git
+* NodeJS
+
+Clone from Github (this repository)
 
 ```Powershell
     git clone https://github.com/runblade/platform.git
 ```
 
-Build all modules:
+Build all modules
 
 ```Powershell
 #Landing
