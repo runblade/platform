@@ -8,10 +8,12 @@ export class Home extends Component {
         items: []
     };
 
+    //Some class variables go here
+    urlAPIDevices = 'https://virtserver.swaggerhub.com/runblade/rb-ingestor/1.0.0/devices';
+    
     componentDidMount() {
-        axios.get("https://virtserver.swaggerhub.com/runblade/rb-ingestor-new/1.0.0/devices").then(
+        axios.get(this.urlAPIDevices).then(
             result => {
-                console.log('loaded');
                 console.log(result);
                 this.setState({
                     isLoaded: true,
@@ -43,43 +45,48 @@ export class Home extends Component {
         else {
             return (
                 //Ideally this will auto-generate from the API's JSON return
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>LOCATIONID</th>
-                            <th>PROTOCOL</th>
-                            <th>URI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Shamelessly repeated to simulate multiple rows */}
-                        {items.map(item =>
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.locationId}</td>
-                                <td>{item.protocol}</td>
-                                <td>{item.uri}</td>
+                <div>
+                    <h1>
+                        {this.urlAPIDevices}
+                    </h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>LOCATIONID</th>
+                                <th>PROTOCOL</th>
+                                <th>URI</th>
                             </tr>
-                        )}
-                        {items.map(item =>
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.locationId}</td>
-                                <td>{item.protocol}</td>
-                                <td>{item.uri}</td>
-                            </tr>
-                        )}
-                        {items.map(item =>
-                            <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.locationId}</td>
-                                <td>{item.protocol}</td>
-                                <td>{item.uri}</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {/* Shamelessly repeated to simulate multiple rows */}
+                            {items.map(item =>
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.locationId}</td>
+                                    <td>{item.protocol}</td>
+                                    <td>{item.uri}</td>
+                                </tr>
+                            )}
+                            {items.map(item =>
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.locationId}</td>
+                                    <td>{item.protocol}</td>
+                                    <td>{item.uri}</td>
+                                </tr>
+                            )}
+                            {items.map(item =>
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td>{item.locationId}</td>
+                                    <td>{item.protocol}</td>
+                                    <td>{item.uri}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             );
         }
     }

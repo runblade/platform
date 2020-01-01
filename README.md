@@ -26,6 +26,8 @@ Ensures safety, fairness and accuracy across the platform.
 
 API engine, dashboards and reporting for various touchpoints.
 
+* React-Dashboard API client
+
 * SwaggerHub: [rb-concierge](https://app.swaggerhub.com/apis/runblade/concierge/1.0.0)
 
 * To add serving of _corporate_ information...
@@ -58,21 +60,23 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
     docker run -d --name lc-landing-nginx-static -p 8001:80 runblade/platform:rb-landing-nginx-static
 
 #Ingestor
-    #API - Swagger
+    #API-Swagger
 
 #Cruncher
-    #API - Swagger
-    #Database - SQL
+    #API-Swagger
+    #Database-SQL
     docker pull mcr.microsoft.com/mssql/server:2019-latest
     docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
-    #Database - NoSQL
+    #Database-NoSQL
     #Tensorflow
 
 #Concierge
-    #API - Swagger
+    #API-Swagger
+    #React-Dashboard
+    docker run -d --name lc-concierge-react-dashboard -p 5051:5000 runblade/platform:rb-concierge-react-dashboard npx serve build
 
 #Negotiator
-    #API - Swagger
+    #API-Swagger
     #Database
     #Simulated Device
     docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE
@@ -80,7 +84,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
     docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE
 
 #Experiencer
-    #API - Swagger
+    #API-Swagger
     #Pipeliner
     docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
     #Pixelizer
@@ -136,7 +140,10 @@ Build all modules
 #Landing
     #Static Website (Consumer-Facing)
     docker build -t rb-landing-nginx-static -f platform/_landing/nginx-static/Dockerfile platform/_landing/nginx-static
-#To Complete...
+#Concierge
+    #React-Dashboard
+    docker build -t rb-concierge-react-dashboard -f platform/concierge/docker/Dockerfile platform/concierge/docker
+#To Be Continued...
 ```
 
 ---
