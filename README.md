@@ -2,7 +2,7 @@
 
 ## _Landing
 
-* Consumer-facing website to be redirected from Runblade.Pro and Runblade.Com to (_fill in site_), 
+* Consumer-facing website to be redirected from Runblade.Pro and Runblade.Com to (_fill in site_)
 
 * Mojuze.Com can be redirected ([see runblade/mojuzedotcom:redirect](https://hub.docker.com/repository/docker/runblade/mojuzedotcom) on Docker Hub)
 
