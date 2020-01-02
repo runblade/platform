@@ -2,7 +2,7 @@
 
 ## _Landing
 
-* Consumer-facing website to be redirected from Runblade.Pro and Runblade.Com to ()
+* Consumer-facing website to be redirected from Runblade.Pro and Runblade.Com to (_fill in site_), 
 
 * Mojuze.Com can be redirected ([see runblade/mojuzedotcom:redirect](https://hub.docker.com/repository/docker/runblade/mojuzedotcom) on Docker Hub)
 
@@ -29,8 +29,6 @@ API engine, dashboards and reporting for various touchpoints.
 * React-Dashboard API client
 
 * SwaggerHub: [rb-concierge](https://app.swaggerhub.com/apis/runblade/concierge/1.0.0)
-
-* To add serving of _corporate_ information...
 
 ## Negotiator
 
@@ -87,7 +85,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
     docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
 ```
 
-View output of running container(s)
+View output of running container(s):
 
 ```PowerShell
 #Negotiator
@@ -98,7 +96,7 @@ View output of running container(s)
     docker attach lc-experiencer-csharpblockchain
 ```
 
-Stop and remove all containers
+Stop and remove all containers:
 
 ```PowerShell
 #Platform-Wide
@@ -106,7 +104,7 @@ Stop and remove all containers
     docker rm $(docker ps -a -q)
 ```
 
-Nuke all images (docker rmi)
+Nuke all images (docker rmi):
 
 ```PowerShell
 #Platform-Wide
@@ -117,40 +115,38 @@ Nuke all images (docker rmi)
 
 ## Building Platform
 
-Requirements
-
-* Docker
-* Dotnet Core
-* Git
-* NodeJS
-
-Clone from Github (this repository)
+Build modules:
 
 ```Powershell
+#Requirements: Docker, Dotnet Core, Git, NodeJS
+#Clone from Github (this repository)
     git clone https://github.com/runblade/platform.git
-```
-
-Build all modules
-
-```Powershell
 #Landing
     #Static Website (Consumer-Facing)
     docker build -t rb-landing-nginx-static -f platform/_landing/nginx-static/Dockerfile platform/_landing/nginx-static
 #Concierge
     #React-Dashboard
     docker build -t rb-concierge-react-dashboard -f platform/concierge/docker/Dockerfile platform/concierge/docker
+#Experiencer
+    #Pipeliner
+    (see commands.ps1 in directory)
+    #Pixelizer
+    (see commands.ps1 in directory)
 #To Be Continued...
 ```
 
-Data wrangling
+Data wrangling:
 
 ```Powershell
-    #Database-SQL
-    docker pull mcr.microsoft.com/mssql/server:2019-latest
-    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
-    #Database-NoSQL
-    docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
-    cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONDATA.json -f lines --generate-key key::%ID%::#MONO_INCR#
+#Database-SQL
+docker pull mcr.microsoft.com/mssql/server:2019-latest
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
+    #Import CSV or Excel
+    Use Microsoft SQL Server Management Studio (SSMS)
+#Database-NoSQL
+docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
+    #Import JSON
+    cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONFILE.json -f lines --generate-key key::%ID%::#MONO_INCR#
 ```
 
 ---
