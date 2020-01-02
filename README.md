@@ -64,10 +64,6 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 
 #Cruncher
     #API-Swagger
-    #Database-SQL
-    docker pull mcr.microsoft.com/mssql/server:2019-latest
-    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
-    #Database-NoSQL
     #Tensorflow
 
 #Concierge
@@ -144,6 +140,17 @@ Build all modules
     #React-Dashboard
     docker build -t rb-concierge-react-dashboard -f platform/concierge/docker/Dockerfile platform/concierge/docker
 #To Be Continued...
+```
+
+Data wrangling
+
+```Powershell
+    #Database-SQL
+    docker pull mcr.microsoft.com/mssql/server:2019-latest
+    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
+    #Database-NoSQL
+    docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
+    cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONDATA.json -f lines --generate-key key::%ID%::#MONO_INCR#
 ```
 
 ---
