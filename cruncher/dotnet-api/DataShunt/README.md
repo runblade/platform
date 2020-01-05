@@ -1,4 +1,4 @@
-# Cruncher DataShunt
+# DataShunt
 
 ## Dependencies
 
@@ -38,10 +38,7 @@ dotnet user-secrets set "Database:ConnectionString" "CONNECTIONSTRINGHERE"
 ## Data Wrangling
 
 ```Powershell
-#Export database
-sqlpackage.exe /a:Export /ssn:127.0.0.1 /sdn:MSSQL /su:USERID /sp:YOURPASSWORDHERE /tf:MSSQL.bacpac
-#Import database
-sqlpackage.exe /a:Import /tsn:127.0.0.1 /tdn:MSSQL /tu:USERID /tp:YOURPASSWORDHERE /sf:MSSQL.bacpac
+
 ```
 
 ## Testing

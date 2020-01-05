@@ -20,6 +20,8 @@ Ensures safety, fairness and accuracy across the platform.
 
 * SwaggerHub: [rb-cruncher](https://app.swaggerhub.com/apis/runblade/cruncher/1.0.0)
 
+* Dotnet-API Engine (DataShunt with sample data)
+
 * Docker Tensorflow (crowd detection), see YouTube: [Runblade™ Crowd Detection 1.0](https://youtu.be/rkwSw_xYqD4)
 
 ## Concierge
@@ -142,7 +144,12 @@ Data wrangling:
 docker pull mcr.microsoft.com/mssql/server:2019-latest
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
     #Import CSV or Excel
-    Use Microsoft SQL Server Management Studio (SSMS)
+    #Use Microsoft SQL Server Management Studio (SSMS)
+    #Use Sqlpackage (eg. DataShunt sample data)
+        #Export database
+        sqlpackage.exe /a:Export /ssn:127.0.0.1 /sdn:MSSQL /su:USERID /sp:YOURPASSWORDHERE /tf:MSSQL.bacpac
+        #Import database
+        sqlpackage.exe /a:Import /tsn:127.0.0.1 /tdn:MSSQL /tu:USERID /tp:YOURPASSWORDHERE /sf:MSSQL.bacpac
 #Database-NoSQL
 docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
     #Import JSON
