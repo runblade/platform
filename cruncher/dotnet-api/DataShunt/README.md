@@ -1,4 +1,4 @@
-# Useful Commands
+# Cruncher DataShunt
 
 ## Dependencies
 
@@ -35,8 +35,19 @@ dotnet user-secrets init
 dotnet user-secrets set "Database:ConnectionString" "CONNECTIONSTRINGHERE"
 ```
 
-## Tests
+## Data Wrangling
 
 ```Powershell
-#To Be Continued...
+#Export database
+sqlpackage.exe /a:Export /ssn:127.0.0.1 /sdn:MSSQL /su:USERID /sp:YOURPASSWORDHERE /tf:MSSQL.bacpac
+#Import database
+sqlpackage.exe /a:Import /tsn:127.0.0.1 /tdn:MSSQL /tu:USERID /tp:YOURPASSWORDHERE /sf:MSSQL.bacpac
+```
+
+## Testing
+
+```Bash
+#Use bash for now, haven't figured out single-line https bypass in Powershell
+dotnet run &
+curl --insecure https://localhost:5001/api/v1/generic/sampledevices/getbyname/a
 ```
