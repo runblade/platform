@@ -45,6 +45,5 @@ dotnet user-secrets set "Database:ConnectionString" "CONNECTIONSTRINGHERE"
 
 ```Bash
 #Use bash for now, haven't figured out single-line https bypass in Powershell
-dotnet run &
-curl --insecure https://localhost:5001/api/v1/generic/sampledevices/getbyname/a
+curl --insecure http://localhost:5051/api/v1/generic/sampledevices/getbyname/a
 ```
