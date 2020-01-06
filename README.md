@@ -77,9 +77,9 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
     #API-Swagger
     #Database
     #Simulated Device
-        docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE
-        docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT
-        docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE
+        docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
+        docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
+        docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
 
 #Experiencer
     #API-Swagger

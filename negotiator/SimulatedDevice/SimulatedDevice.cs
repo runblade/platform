@@ -9,9 +9,13 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 //using Microsoft.Azure.Devices.Client;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Couchbase;
+using Couchbase.Authentication;
+using Couchbase.Configuration.Client;
 
 namespace simulated_device
 {
@@ -20,6 +24,11 @@ namespace simulated_device
         //Some legacy code from Azure IoT example, just for reference
         private readonly static string s_connectionString = "{Your device connection string here}";
     
+        //Couchbase SDK, etc.
+        private static Cluster couchbaseCluster;
+        private static PasswordAuthenticator couchbaseAuthenticator;
+        private static Couchbase.Core.IBucket couchbaseBucket;
+
         //Simulation data (human-readable stuff, to be used for, well, the simulations)
         
         //PLACEMENT
@@ -31,7 +40,7 @@ namespace simulated_device
         private static string[] creativeCondExamples = {"Minors excluded", "Prefer e-wallet users", "Mandatory state info", "Weather-dependent", "Interactive only", "Time-sensitive", "Fraud-detect flagged"};
 
         //Utility "global" variables
-        private readonly static int SimulationSpeed = 1000; //Miliseconds
+        private readonly static int SimulationSpeed = 500; //Miliseconds
         private static Random rand = new Random();
         private static int outputItems = 0;  
         
@@ -115,6 +124,8 @@ namespace simulated_device
                 // Create JSON message
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(deviceDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
+                //Insert(Upsert) into database
+                Console.WriteLine("Upsert: {0}", UpsertNoSQL(deviceDataChunk.dID.ToString(), deviceDataChunk));
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -140,6 +151,8 @@ namespace simulated_device
                 // Create JSON message
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(placementDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
+                //Insert(Upsert) into database
+                Console.WriteLine("Upsert: {0}", UpsertNoSQL(placementDataChunk.pID.ToString(), placementDataChunk));
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -165,6 +178,8 @@ namespace simulated_device
                 // Create JSON message
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(creativeDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
+                //Insert(Upsert) into database
+                Console.WriteLine("Upsert: {0}", UpsertNoSQL(creativeDataChunk.cID.ToString(), creativeDataChunk));
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -182,9 +197,36 @@ namespace simulated_device
             return Convert.ToBase64String(hash);
         }
 
+        private static string UpsertNoSQL(string id, object POCO )
+        {
+            //Insert(Upsert) a new document
+            var bucket = couchbaseBucket;
+            var document = new Document<dynamic>
+            {
+                Id = id,
+                Content = POCO
+            };
+            var upsert = bucket.Upsert(document);
+            if (upsert.Success)
+                return "OK";
+            else
+                return "FAIL";
+        }
+
         private static void Main(string[] args)
         {
             Console.WriteLine("\n\nIoT Hub Quickstarts #1 - Simulated device (RB-NEGOTIATOR). Ctrl-C to exit.");
+
+            //Set up database connetion
+            //Ideally this would go into a unit test etc.
+            couchbaseCluster = new Cluster(new ClientConfiguration
+            {
+                //Servers = new List<Uri> { new Uri("http://127.0.0.1:8091") }
+                Servers = new List<Uri> { new Uri(args[1]) }
+            });
+            couchbaseAuthenticator = new PasswordAuthenticator(args[2],args[3]);
+            couchbaseCluster.Authenticate(couchbaseAuthenticator);
+            couchbaseBucket = couchbaseCluster.OpenBucket(args[4]);
 
             if (args != null && args.Length > 0) 
             {
@@ -194,8 +236,8 @@ namespace simulated_device
                     SendPlacementsToCloudNonAsync();
                 else if (args[0] == "CREATIVE")
                     SendCreativesToCloudNonAsync();
-		else Console.WriteLine("Oops, you can only choose from DEVICE, PLACEMENT, CREATIVE...");
-	    }
+		        else Console.WriteLine("Oops, you can only choose from DEVICE, PLACEMENT, CREATIVE...");
+	        }
             else
             {
                 Console.WriteLine("Oops, you need to choose a feed to simulate (DEVICE, PLACEMENT, CREATIVE)...");

@@ -1,5 +1,5 @@
 #Use this to build the docker image
-dotnet publish -c Release
+dotnet publish -c Debug
 docker build -t rb-negotiator-simulateddevice -f Dockerfile .
 
 #Use this to tag and push the docker image to docker hub
