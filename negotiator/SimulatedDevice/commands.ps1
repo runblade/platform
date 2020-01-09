@@ -1,4 +1,5 @@
 #Use this to build the docker image
+#Using Debug version for now
 dotnet publish -c Debug
 docker build -t rb-negotiator-simulateddevice -f Dockerfile .
 

@@ -83,7 +83,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 
 #Experiencer
     #API-Swagger
-    #Pipeliner
+    #
         docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
     #Pixelizer
         docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
@@ -124,6 +124,12 @@ Nuke all images (docker rmi):
 
 ## Building Platform
 
+CI/CD:
+
+```Powershell
+#Began testing Gitlab _Pipelines and _Jobs
+```
+
 Build modules:
 
 ```Powershell
@@ -139,12 +145,14 @@ Build modules:
 #Concierge
     #React-Dashboard
         #(see commands.ps1 in directory)
+#Negotiator
+    #Simulated Device
+        #(see commands.ps1 in directory)
 #Experiencer
     #Pipeliner
         #(see commands.ps1 in directory)
     #Pixelizer
         #(see commands.ps1 in directory)
-#To Be Continued...
 ```
 
 Data wrangling:
@@ -164,6 +172,16 @@ Data wrangling:
     docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
         #Import JSON
         cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONFILE.json -f lines --generate-key key::%ID%::#MONO_INCR#
+```
+
+---
+
+## Testing
+
+```Powershell
+#Negotiator
+    #Simulated Device
+        dotnet test SimulatedDevice.Tests
 ```
 
 ---

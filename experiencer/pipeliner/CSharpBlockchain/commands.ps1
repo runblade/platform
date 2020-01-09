@@ -1,4 +1,5 @@
 #Use this to build the docker image
+#Testing using a Release version
 dotnet publish -c Release
 docker build -t rb-experiencer-csharpblockchain -f Dockerfile .
 
