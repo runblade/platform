@@ -17,9 +17,9 @@ using Couchbase;
 using Couchbase.Authentication;
 using Couchbase.Configuration.Client;
 
-namespace simulated_device
+namespace Runblade.Negotiator.Simulations
 {
-    class SimulatedDevice
+    public class SimulatedDevice
     {
         //Some legacy code from Azure IoT example, just for reference
         private readonly static string s_connectionString = "{Your device connection string here}";
@@ -28,6 +28,7 @@ namespace simulated_device
         private static Cluster couchbaseCluster;
         private static PasswordAuthenticator couchbaseAuthenticator;
         private static Couchbase.Core.IBucket couchbaseBucket;
+        private static bool couchbaseConnectionInitialised = false;
 
         //Simulation data (human-readable stuff, to be used for, well, the simulations)
         
@@ -107,10 +108,10 @@ namespace simulated_device
         }
 
         //Simulate DEVICE feed
-        private static void SendDevicesToCloudNonAsync()
+        public static string SendDevicesToCloudNonAsync(int timeout = -1)
         {
             DeviceTelemetry deviceDataChunk = new DeviceTelemetry();          
-            while (true)
+            while (timeout < 0)
             {
                 outputItems++;
                 //Arbitrary simulations
@@ -125,7 +126,10 @@ namespace simulated_device
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(deviceDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
                 //Insert(Upsert) into database
-                Console.WriteLine("Upsert: {0}", UpsertNoSQL(deviceDataChunk.dID.ToString(), deviceDataChunk));
+                if(couchbaseConnectionInitialised)
+                {
+                    Console.WriteLine("Upsert: {0}", UpsertNoSQL(deviceDataChunk.dID.ToString(), deviceDataChunk));
+                }
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -134,13 +138,14 @@ namespace simulated_device
                 // Sleep for x seconds
                 System.Threading.Thread.Sleep(SimulationSpeed);
             }
+            return JsonConvert.SerializeObject(deviceDataChunk, Formatting.Indented);
         }
 
         //Simulate PLACEMENT feed
-        private static void SendPlacementsToCloudNonAsync()
+        public static string SendPlacementsToCloudNonAsync(int timeout = -1)
         {
             PlacementAsk placementDataChunk = new PlacementAsk();
-            while (true) 
+            while (timeout < 0) 
             {
                 outputItems++;
                 //Arbitrary simulations
@@ -152,7 +157,10 @@ namespace simulated_device
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(placementDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
                 //Insert(Upsert) into database
-                Console.WriteLine("Upsert: {0}", UpsertNoSQL(placementDataChunk.pID.ToString(), placementDataChunk));
+                if(couchbaseConnectionInitialised)
+                {
+                    Console.WriteLine("Upsert: {0}", UpsertNoSQL(placementDataChunk.pID.ToString(), placementDataChunk));
+                }
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -161,13 +169,14 @@ namespace simulated_device
                 // Sleep for x seconds
                 System.Threading.Thread.Sleep(SimulationSpeed);
             }
+            return JsonConvert.SerializeObject(placementDataChunk, Formatting.Indented);
         }
 
         //Simulate CREATIVE feed
-        private static void SendCreativesToCloudNonAsync()
+        public static string SendCreativesToCloudNonAsync(int timeout = -1)
         {
             CreativeBid creativeDataChunk = new CreativeBid();
-            while (true) 
+            while (timeout < 0) 
             {
                 outputItems++;
                 //Arbitrary simulations
@@ -179,7 +188,10 @@ namespace simulated_device
                 var messageStringFromNestedClass = JsonConvert.SerializeObject(creativeDataChunk, Formatting.Indented);
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageStringFromNestedClass);
                 //Insert(Upsert) into database
-                Console.WriteLine("Upsert: {0}", UpsertNoSQL(creativeDataChunk.cID.ToString(), creativeDataChunk));
+                if(couchbaseConnectionInitialised)
+                {
+                    Console.WriteLine("Upsert: {0}", UpsertNoSQL(creativeDataChunk.cID.ToString(), creativeDataChunk));
+                }
                 //Just some fancy screen stuff
                 //if (outputItems % 10 == 0) 
                 //    Console.Clear();
@@ -188,12 +200,15 @@ namespace simulated_device
                 // Sleep for x seconds
                 System.Threading.Thread.Sleep(SimulationSpeed);
             }
+            return JsonConvert.SerializeObject(creativeDataChunk, Formatting.Indented);
         }
 
-        private static string SimulateCryptography()
+        public static string SimulateCryptography(string stringToHash = "")
         {
+            if (stringToHash == "")
+                stringToHash = Guid.NewGuid().ToString();
             HashAlgorithm algorithm = SHA256.Create();
-            byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString()));
+            byte[] hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(stringToHash));
             return Convert.ToBase64String(hash);
         }
 
@@ -217,16 +232,26 @@ namespace simulated_device
         {
             Console.WriteLine("\n\nIoT Hub Quickstarts #1 - Simulated device (RB-NEGOTIATOR). Ctrl-C to exit.");
 
-            //Set up database connetion
-            //Ideally this would go into a unit test etc.
-            couchbaseCluster = new Cluster(new ClientConfiguration
+            try
             {
-                //Servers = new List<Uri> { new Uri("http://127.0.0.1:8091") }
-                Servers = new List<Uri> { new Uri(args[1]) }
-            });
-            couchbaseAuthenticator = new PasswordAuthenticator(args[2],args[3]);
-            couchbaseCluster.Authenticate(couchbaseAuthenticator);
-            couchbaseBucket = couchbaseCluster.OpenBucket(args[4]);
+                //Test database connection
+                couchbaseCluster = new Cluster(new ClientConfiguration
+                {
+                    //Servers = new List<Uri> { new Uri("http://127.0.0.1:8091") }
+                    Servers = new List<Uri> { new Uri(args[1]) }
+                });
+                couchbaseAuthenticator = new PasswordAuthenticator(args[2],args[3]);
+                couchbaseCluster.Authenticate(couchbaseAuthenticator);
+                couchbaseBucket = couchbaseCluster.OpenBucket(args[4]);
+                couchbaseConnectionInitialised = true;
+            }
+            catch
+            {
+                Console.WriteLine("WARNING: Couchbase connection failed to initialise!");
+                Console.WriteLine("Press Enter to continue...");
+                Console.Read();
+                couchbaseConnectionInitialised = false;
+            }
 
             if (args != null && args.Length > 0) 
             {
