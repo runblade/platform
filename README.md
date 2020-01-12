@@ -20,6 +20,8 @@ Ensures safety, fairness and accuracy across the platform.
 
 * SwaggerHub: [rb-cruncher](https://app.swaggerhub.com/apis/runblade/cruncher/1.0.0)
 
+* Dotnet-API Engine (DataShunt with sample data)
+
 * Docker Tensorflow (crowd detection), see YouTube: [Runblade™ Crowd Detection 1.0](https://youtu.be/rkwSw_xYqD4)
 
 ## Concierge
@@ -55,44 +57,51 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 ```PowerShell
 #Landing
     #Static Website (Consumer-Facing)
-    docker run -d --name lc-landing-nginx-static -p 8001:80 runblade/platform:rb-landing-nginx-static
+        docker run -d --name lc-landing-nginx-static -p 8001:80 runblade/platform:rb-landing-nginx-static
 
 #Ingestor
     #API-Swagger
 
 #Cruncher
     #API-Swagger
+    #Dotnet-API
+        docker run -d --name lc-cruncher-dotnet-api -p 5051:80 runblade/platform:rb-cruncher-dotnet-api --DBCONFIGSTRING="Server=172.17.0.2;Database=MSSQL;User Id=USERID;Password=YOURPASSWORDHERE"
     #Tensorflow
 
 #Concierge
     #API-Swagger
     #React-Dashboard
-    docker run -d --name lc-concierge-react-dashboard -p 5051:5000 runblade/platform:rb-concierge-react-dashboard npx serve build
+        docker run -d --name lc-concierge-react-dashboard -p 5052:5000 runblade/platform:rb-concierge-react-dashboard npx serve build
 
 #Negotiator
     #API-Swagger
     #Database
     #Simulated Device
-    docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE
-    docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT
-    docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE
+        docker run -d --name lc-negotiator-simulateddevice-1 runblade/platform:rb-negotiator-simulateddevice DEVICE http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
+        docker run -d --name lc-negotiator-simulateddevice-2 runblade/platform:rb-negotiator-simulateddevice PLACEMENT http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
+        docker run -d --name lc-negotiator-simulateddevice-3 runblade/platform:rb-negotiator-simulateddevice CREATIVE http://172.17.0.3:8091 USERID YOURPASSWORDHERE BUCKETNAME
 
 #Experiencer
     #API-Swagger
-    #Pipeliner
-    docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
+    #
+        docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
     #Pixelizer
-    docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
+        docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
 ```
 
 View output of running container(s):
 
 ```PowerShell
+#Ingestor
+#Cruncher
+#Concierge
 #Negotiator
+    #(Use this to view as there is curently no web interface)
     docker attach lc-negotiator-simulateddevice-1
     docker attach lc-negotiator-simulateddevice-2
     docker attach lc-negotiator-simulateddevice-3
 #Experiencer
+    #(Use this to view as there is curently no web interface)
     docker attach lc-experiencer-csharpblockchain
 ```
 
@@ -115,6 +124,12 @@ Nuke all images (docker rmi):
 
 ## Building Platform
 
+CI/CD:
+
+```Powershell
+#Began testing Gitlab _Pipelines and _Jobs
+```
+
 Build modules:
 
 ```Powershell
@@ -123,30 +138,50 @@ Build modules:
     git clone https://github.com/runblade/platform.git
 #Landing
     #Static Website (Consumer-Facing)
-    docker build -t rb-landing-nginx-static -f platform/_landing/nginx-static/Dockerfile platform/_landing/nginx-static
+        #(see commands.ps1 in directory)
+#Cruncher
+    #Dotnet-API
+        #(see commands.ps1 in directory)
 #Concierge
     #React-Dashboard
-    docker build -t rb-concierge-react-dashboard -f platform/concierge/docker/Dockerfile platform/concierge/docker
+        #(see commands.ps1 in directory)
+#Negotiator
+    #Simulated Device
+        #(see commands.ps1 in directory)
 #Experiencer
     #Pipeliner
-    (see commands.ps1 in directory)
+        #(see commands.ps1 in directory)
     #Pixelizer
-    (see commands.ps1 in directory)
-#To Be Continued...
+        #(see commands.ps1 in directory)
 ```
 
 Data wrangling:
 
 ```Powershell
 #Database-SQL
-docker pull mcr.microsoft.com/mssql/server:2019-latest
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
-    #Import CSV or Excel
-    Use Microsoft SQL Server Management Studio (SSMS)
+    docker pull mcr.microsoft.com/mssql/server:2019-latest
+    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YOURPASSWORDHERE" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
+        #Import CSV or Excel
+        #Use Microsoft SQL Server Management Studio (SSMS)
+        #Use Sqlpackage (eg. DataShunt sample data)
+            #Export database
+            sqlpackage.exe /a:Export /ssn:127.0.0.1 /sdn:MSSQL /su:USERID /sp:YOURPASSWORDHERE /tf:MSSQL.bacpac
+            #Import database
+            sqlpackage.exe /a:Import /tsn:127.0.0.1 /tdn:MSSQL /tu:USERID /tp:YOURPASSWORDHERE /sf:MSSQL.bacpac
 #Database-NoSQL
-docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
-    #Import JSON
-    cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONFILE.json -f lines --generate-key key::%ID%::#MONO_INCR#
+    docker run -d -p 8091-8094:8091-8094 -p 11210:11210 couchbase
+        #Import JSON
+        cbimport json -c 127.0.0.1 -u USER -p PASSWORD -b BUCKET -d file://SHAREDFOLDER/JSONFILE.json -f lines --generate-key key::%ID%::#MONO_INCR#
+```
+
+---
+
+## Testing
+
+```Powershell
+#Negotiator
+    #Simulated Device
+        dotnet test SimulatedDevice.Tests
 ```
 
 ---
