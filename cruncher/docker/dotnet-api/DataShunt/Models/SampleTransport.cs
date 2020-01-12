@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataShunt.Models
+namespace Runblade.Cruncher.DataShunt.Models
 {
     public partial class SampleTransport
     {

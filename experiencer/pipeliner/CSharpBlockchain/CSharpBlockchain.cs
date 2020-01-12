@@ -4,8 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-
-namespace CSharpBlockchain
+namespace Runblade.Experiencer.CSharpBlockchain
 {
     public class Transaction
     {
@@ -37,7 +36,7 @@ namespace CSharpBlockchain
             Transactions = transactions;
             PreviousHash = previousHash;
             Hash = CreateHash();
-        }    
+        }
         
         public void MineBlock(int proofOfWorkDifficulty)
         {

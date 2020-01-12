@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 
-namespace CSharpBlockchain
+namespace Runblade.Experiencer.CSharpBlockchain
 {
     class Program
     {
@@ -17,7 +17,7 @@ namespace CSharpBlockchain
                 return;
             }
 
-            //Set up mining and user addresses (can be modified for non-"coin" uses)            
+            //Set up mining and user addresses (can be modified for non-"coin" uses)
             const string minerAddress = "miner1";
             const string user1Address = "A";
             const string user2Address = "B";       
@@ -42,7 +42,6 @@ namespace CSharpBlockchain
             Console.WriteLine("--------- Start mining ---------");
             blockChain.MineBlock(minerAddress);        
             Console.WriteLine("BALANCE of the miner: {0}\n", blockChain.GetBalance(minerAddress));        
-            
             //Output entire blockchain - need to clean up function (why is it passing itself as parameter?)
             blockChain.PrintChain(blockChain);       
             

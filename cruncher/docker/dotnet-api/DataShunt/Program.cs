@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace DataShunt
+namespace Runblade.Cruncher.DataShunt
 {
     public class Program
     {

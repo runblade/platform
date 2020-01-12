@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DataShunt.Models
+namespace Runblade.Cruncher.DataShunt.Models
 {
     public partial class MSSQLContext : DbContext
     {

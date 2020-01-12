@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Newtonsoft.Json;
-using DataShunt.Models;
+using Runblade.Cruncher.DataShunt.Models;
 
-namespace DataShunt.Controllers
+namespace Runblade.Cruncher.DataShunt.Controllers
 {
     [ApiController]
     [Route("api/v1/generic")]

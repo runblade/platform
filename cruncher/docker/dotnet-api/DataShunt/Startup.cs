@@ -12,9 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using DataShunt.Models;
+using Runblade.Cruncher.DataShunt.Models;
 
-namespace DataShunt
+namespace Runblade.Cruncher.DataShunt
 {
     public class Startup
     {
