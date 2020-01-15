@@ -5,11 +5,6 @@ stages:
   - test
   - deploy
 
-experiencer_build:
-  stage: build
-  script:
-    - "echo Experiencer build goes here..."
-
 cruncher_build:
   stage: build
   before_script:
@@ -23,6 +18,11 @@ negotiator_build:
     - "dotnet restore negotiator/SimulatedDevice"
   script:
     - "dotnet build negotiator/SimulatedDevice"
+
+experiencer_build:
+  stage: build
+  script:
+    - "echo Experiencer build goes here..."
 
 cruncher_test:
   stage: test
