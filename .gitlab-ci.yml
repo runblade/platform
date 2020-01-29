@@ -11,6 +11,11 @@ cruncher_build:
     - "dotnet restore cruncher/docker/dotnet-api/DataShunt"
   script:
     - "dotnet build cruncher/docker/dotnet-api/DataShunt"
+
+concierge_build:
+  stage: build
+  script:
+    - "echo Concierge builds go here..."
   
 negotiator_build:
   stage: build
@@ -22,13 +27,18 @@ negotiator_build:
 experiencer_build:
   stage: build
   script:
-    - "echo Experiencer build goes here..."
+    - "echo Experiencer builds go here..."
 
 cruncher_test:
   stage: test
   script: 
     - "echo Cruncher tests go here..."
  
+concierge_test:
+  stage: test
+  script:
+    - "echo Concierge tests go here..."
+        
 negotiator_test:
   stage: test
   script:

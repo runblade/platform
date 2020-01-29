@@ -71,7 +71,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 #Concierge
     #API-Swagger
     #React-Dashboard
-        docker run -d --name lc-concierge-react-dashboard -p 5052:5000 runblade/platform:rb-concierge-react-dashboard npx serve build
+        docker run -d --name lc-concierge-react-dashboard -p 5052:80 runblade/platform:rb-concierge-react-dashboard
 
 #Negotiator
     #API-Swagger
