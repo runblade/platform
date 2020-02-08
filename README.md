@@ -188,4 +188,4 @@ Data wrangling:
 
 ## License
 
-All ideas, concepts and content here are licensed as Creative Commons - Attribution NonCommercial and remains the property of Project Mojuze (formerly MobileJuze Pty Ltd), with the exception of material by any other original creators as credited or recorded otherwise.
+All ideas, concepts and content here are licensed as Creative Commons - Attribution NonCommercial and remains the property of Mojuze (formerly MobileJuze Pty Ltd), with the exception of material by any other original creators as credited or recorded otherwise.
