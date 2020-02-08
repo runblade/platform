@@ -83,7 +83,7 @@ Run from Docker Hub private repo runblade/platform as follows (authentication re
 
 #Experiencer
     #API-Swagger
-    #
+    #Pipeliner
         docker run -d --name lc-experiencer-csharpblockchain runblade/platform:rb-experiencer-csharpblockchain 10
     #Pixelizer
         docker run -d --name lc-experiencer-pixelizer-demo -p 8002:80 runblade/platform:rb-experiencer-pixelizer-demo
@@ -110,7 +110,7 @@ Stop and remove all containers:
 ```PowerShell
 #Platform-Wide
     docker stop $(docker ps -a -q)
-    docker rm $(docker ps -a -q)
+    docker rm   $(docker ps -a -q)
 ```
 
 Nuke all images (docker rmi):
