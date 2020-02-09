@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Runblade.Cruncher.DataShunt.Models;
+using Runblade.Cruncher.DataShunt.Controllers;
 
 namespace Runblade.Cruncher.DataShunt
 {
@@ -25,6 +26,7 @@ namespace Runblade.Cruncher.DataShunt
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Console.WriteLine("Startup constructor called...");
         }
 
         public IConfiguration Configuration 
@@ -36,13 +38,12 @@ namespace Runblade.Cruncher.DataShunt
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            //Check configurations
-            Console.WriteLine("Unit tests go here (Core logic, startup, etc.)...");
-            Console.WriteLine("Checking configuration variables...");
-            //Check database connection string (from user-secrets)
+            Console.WriteLine("ConfigureServices called...");
+            //Set database connection string (from user-secrets)
             _dbConnectionString = Configuration["Database:ConnectionString"];
-            //Check database connection string (from command line)
+            //Set database connection string (from command line)
             _dbConnectionStringCMDLINE = Configuration["DBCONFIGSTRING"];
+            //For dependency injection
             services.AddDbContext<MSSQLContext>(options => options.UseSqlServer(_dbConnectionStringCMDLINE));
         }
 
@@ -65,20 +66,28 @@ namespace Runblade.Cruncher.DataShunt
                 endpoints.MapControllers();
             });
 
-            //Basic debugging prior to database unit testing
+            //Basic debugging regarding database connection
             var resultA = string.IsNullOrEmpty(_dbConnectionString) ? "Null" : "Not Null";
             Console.WriteLine ($"DB Connection String: {resultA}");
             var resultB = string.IsNullOrEmpty(_dbConnectionStringCMDLINE) ? "Null" : "Not Null";
             Console.WriteLine ($"DB Connection String CMDLINE: {resultB}");
 
-            TestMyDatabase();
-        }
-        
-        [Fact]
-        private void TestMyDatabase()
+            //Basic unit testing regarding database connection
+            CheckDBConnectionString();
+
+            //Started up!
+            Console.WriteLine("Reached end of Startup.");
+        } 
+
+        private string GetDBConnectionString()
         {
-            bool myDatabaseIsValid = false;
-            Assert.Equal(myDatabaseIsValid,true);
-        }
+            return _dbConnectionStringCMDLINE;
+        }    
+
+        [Fact]
+        private void CheckDBConnectionString()
+        {
+            Assert.NotNull(GetDBConnectionString());
+        }           
     }
 }
