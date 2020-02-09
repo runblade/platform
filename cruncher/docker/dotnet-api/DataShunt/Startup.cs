@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 using Runblade.Cruncher.DataShunt.Models;
 
 namespace Runblade.Cruncher.DataShunt
@@ -36,7 +37,7 @@ namespace Runblade.Cruncher.DataShunt
         {
             services.AddControllers();
             //Check configurations
-            Console.WriteLine("Unit tests go here (startup)...");
+            Console.WriteLine("Unit tests go here (Core logic, startup, etc.)...");
             Console.WriteLine("Checking configuration variables...");
             //Check database connection string (from user-secrets)
             _dbConnectionString = Configuration["Database:ConnectionString"];
@@ -64,11 +65,20 @@ namespace Runblade.Cruncher.DataShunt
                 endpoints.MapControllers();
             });
 
-            //Should be changed to a unit test (check database is reachable)
+            //Basic debugging prior to database unit testing
             var resultA = string.IsNullOrEmpty(_dbConnectionString) ? "Null" : "Not Null";
             Console.WriteLine ($"DB Connection String: {resultA}");
             var resultB = string.IsNullOrEmpty(_dbConnectionStringCMDLINE) ? "Null" : "Not Null";
             Console.WriteLine ($"DB Connection String CMDLINE: {resultB}");
+
+            TestMyDatabase();
+        }
+        
+        [Fact]
+        private void TestMyDatabase()
+        {
+            bool myDatabaseIsValid = false;
+            Assert.Equal(myDatabaseIsValid,true);
         }
     }
 }
